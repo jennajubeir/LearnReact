@@ -7,8 +7,27 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
+import { render } from "@testing-library/react";
+import ReactDOM from "react-dom";
+import CartDisplay from "./Cart";
+import { mycart } from "./Cart";
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, itemsInCart, setCartProducts }) => {
+  const AddtoCart = item => {
+    var currCart = itemsInCart;
+    if (String(item.sku) in currCart) {
+      currCart[item.sku] += 1;
+    } else {
+      currCart[item.sku] = 1;
+    }
+    setCartProducts(currCart);
+
+    const cart = ReactDOM.render(
+      mycart,
+      document.getElementById("cart-display")
+    );
+  };
+
   return (
     <Container className="product-container">
       <img
@@ -38,7 +57,11 @@ const ProductCard = ({ product }) => {
           XL{" "}
         </Button>
       </ButtonGroup>
-      <button className="add-to-cart" variant="contained">
+      <button
+        className="add-to-cart"
+        variant="contained"
+        onClick={() => AddtoCart(product)}
+      >
         Add to Cart
       </button>
     </Container>

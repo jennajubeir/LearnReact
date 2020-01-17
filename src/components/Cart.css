@@ -1,0 +1,9 @@
+.cart-display {
+  position: fixed;
+  right: 2%;
+  top: 2%;
+  z-index: 1;
+}
+
+.expansion-panel {
+}
