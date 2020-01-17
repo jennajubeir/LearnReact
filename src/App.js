@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import firebase from "firebase/app";
 import "firebase/database";
-
+import ProductGridView from "./components/ProductGridView";
+import ProductCard from "./components/ProductCard";
+import "./components/ProductCard.css";
 const firebaseConfig = {
   apiKey: "AIzaSyBS4qjaorkbIIy3Xxsv6_p9TYotcjs2Mlw",
   authDomain: "learnreact-1d4bc.firebaseapp.com",
@@ -30,7 +32,7 @@ const App = () => {
   return (
     <ul>
       {products.map(product => (
-        <li key={product.sku}>{product.title}</li>
+        <ProductCard key={product.sku} product={product} />
       ))}
     </ul>
   );
