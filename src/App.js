@@ -29,13 +29,7 @@ const App = () => {
     fetchProducts();
   }, []);
 
-  return (
-    <ul>
-      {products.map(product => (
-        <ProductCard key={product.sku} product={product} />
-      ))}
-    </ul>
-  );
+  return <ProductGridView products={products} />;
 };
 
 export default App;

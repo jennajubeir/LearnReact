@@ -1,4 +1,5 @@
-.product-card {
+.product-container {
+  width: 200px;
 }
 
 .img {
@@ -13,4 +14,23 @@
   margin-right: auto;
   background-color: gold;
   border-width: 0px;
+}
+.add-to-cart {
+  margin-right: auto;
+  background-color: black;
+  color: white;
+  font-size: 15pt;
+  width: 88%;
+  height: 50px;
+}
+.size-buttons > .small-size-buttons {
+  width: 100%;
+  color: black;
+  margin: auto;
+  background-color: white;
+  position: relative;
+}
+
+.size-buttons {
+  width: 88%;
 }
