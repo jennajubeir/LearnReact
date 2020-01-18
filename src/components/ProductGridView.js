@@ -2,7 +2,13 @@ import ProductCard from "./ProductCard";
 import React, { useEffect, useState } from "react";
 import Grid from "@material-ui/core/Grid";
 
-const ProductGridView = ({ products, itemsInCart, setCartProducts }) => {
+const ProductGridView = ({
+  products,
+  itemsInCart,
+  setCartProducts,
+  cartFull,
+  setCartFull
+}) => {
   return (
     <div className="product-grid">
       <Grid container spacing={3}>
@@ -13,6 +19,8 @@ const ProductGridView = ({ products, itemsInCart, setCartProducts }) => {
               product={product}
               itemsInCart={itemsInCart}
               setCartProducts={setCartProducts}
+              cartFull={cartFull}
+              setCartFull={setCartFull}
             />
           </Grid>
         ))}

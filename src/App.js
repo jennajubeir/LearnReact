@@ -23,6 +23,7 @@ const App = () => {
   const [data, setData] = useState({});
   const products = Object.values(data);
   const [itemsInCart, setCartProducts] = useState([]);
+  const [cartFull, setCartFull] = useState();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -40,14 +41,19 @@ const App = () => {
         products={products}
         itemsInCart={itemsInCart}
         setCartProducts={setCartProducts}
+        cartFull={cartFull}
+        setCartFull={setCartFull}
       />
-      <CartDisplay
-        id="cart-display"
-        products={products}
-        cartproduct={products}
-        itemsInCart={itemsInCart}
-        setCartProducts={setCartProducts}
-      />
+      <div id="cart-display">
+        <CartDisplay
+          products={products}
+          cartproduct={products}
+          itemsInCart={itemsInCart}
+          setCartProducts={setCartProducts}
+          cartFull={cartFull}
+          setCartFull={setCartFull}
+        />
+      </div>
     </div>
   );
 };

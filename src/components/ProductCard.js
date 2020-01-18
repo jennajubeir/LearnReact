@@ -10,22 +10,28 @@ import ButtonGroup from "@material-ui/core/ButtonGroup";
 import { render } from "@testing-library/react";
 import ReactDOM from "react-dom";
 import CartDisplay from "./Cart";
-import { mycart } from "./Cart";
 
-const ProductCard = ({ product, itemsInCart, setCartProducts }) => {
+const cart = () =>
+  ReactDOM.render(<CartDisplay />, document.getElementById("cart-display"));
+
+const ProductCard = ({
+  product,
+  itemsInCart,
+  setCartProducts,
+  cartFull,
+  setCartFull
+}) => {
   const AddtoCart = item => {
     var currCart = itemsInCart;
+    var currCartStatus = true;
     if (String(item.sku) in currCart) {
       currCart[item.sku] += 1;
     } else {
       currCart[item.sku] = 1;
     }
     setCartProducts(currCart);
-
-    const cart = ReactDOM.render(
-      mycart,
-      document.getElementById("cart-display")
-    );
+    setCartFull(currCartStatus);
+    cart();
   };
 
   return (

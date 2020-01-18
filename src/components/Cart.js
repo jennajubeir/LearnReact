@@ -6,13 +6,22 @@ import Typography from "@material-ui/core/Typography";
 import { cartpic } from "../cartpic.png";
 import { render } from "@testing-library/react";
 
-const mycart = ({ products, cartproducts, itemsInCart, setCartProduct }) => {
+const mycart = ({
+  products,
+  cartproducts,
+  itemsInCart,
+  setCartProducts,
+  cartFull,
+  setCartFull
+}) => {
+  console.log(itemsInCart);
   return (
-    <ExpansionPanelDetails className="cart-details">
+    //the objects.keys is coming up null? says it cannot
+    <html>
       {Object.keys(itemsInCart).map(item => (
-        <p className="title">{products[item].title}</p>
+        <p className="title"> {products[item].title} </p>
       ))}
-    </ExpansionPanelDetails>
+    </html>
   );
 };
 
@@ -20,21 +29,45 @@ const CartDisplay = ({
   products,
   cartproducts,
   itemsInCart,
-  setCartProduct
+  setCartProducts,
+  cartFull,
+  setCartFull
 }) => {
+  if (cartFull) {
+    console.log("cartfull");
+    return (
+      <div className="cart-display">
+        <ExpansionPanel>
+          <ExpansionPanelSummary>
+            <Typography className="expansion-panel">Cart</Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails className="cart-details">
+            <Typography>
+              {mycart(
+                products,
+                cartproducts,
+                itemsInCart,
+                setCartProducts,
+                cartFull,
+                setCartFull
+              )}
+            </Typography>
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
+      </div>
+    );
+  }
   return (
-    <div className="cart-display">
-      <ExpansionPanel>
-        <ExpansionPanelSummary>
-          <Typography className="expansion-panel">Cart</Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails className="cart-details">
-          {Object.keys(itemsInCart).map(item => (
-            <p className="title">{products[item].title}</p>
-          ))}
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
-    </div>
+    console.log("cartnotfull"),
+    (
+      <div className="cart-display">
+        <ExpansionPanel>
+          <ExpansionPanelSummary>
+            <Typography className="expansion-panel">Cart</Typography>
+          </ExpansionPanelSummary>
+        </ExpansionPanel>
+      </div>
+    )
   );
 };
 
