@@ -22,8 +22,8 @@ firebase.initializeApp(firebaseConfig);
 const App = () => {
   const [data, setData] = useState({});
   const products = Object.values(data);
-  const [itemsInCart, setCartProducts] = useState([]);
-  const [cartFull, setCartFull] = useState();
+  const [itemsInCart, setCartProducts] = useState({});
+  const [cartFull, setCartFull] = useState("false");
 
   useEffect(() => {
     const fetchProducts = async () => {

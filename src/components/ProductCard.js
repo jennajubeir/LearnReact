@@ -21,19 +21,16 @@ const ProductCard = ({
   cartFull,
   setCartFull
 }) => {
-  const AddtoCart = item => {
+  const AddtoCart = () => {
     var currCart = itemsInCart;
-    var currCartStatus = true;
-    if (String(item.sku) in currCart) {
-      currCart[item.sku] += 1;
+    if (String(product.sku) in currCart) {
+      currCart[String(product.sku)] += 1;
     } else {
-      currCart[item.sku] = 1;
+      currCart[String(product.sku)] = 1;
     }
     setCartProducts(currCart);
-    setCartFull(currCartStatus);
     cart();
   };
-
   return (
     <Container className="product-container">
       <img
@@ -63,11 +60,7 @@ const ProductCard = ({
           XL{" "}
         </Button>
       </ButtonGroup>
-      <button
-        className="add-to-cart"
-        variant="contained"
-        onClick={() => AddtoCart(product)}
-      >
+      <button className="add-to-cart" variant="contained" onClick={AddtoCart}>
         Add to Cart
       </button>
     </Container>

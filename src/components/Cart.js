@@ -6,23 +6,11 @@ import Typography from "@material-ui/core/Typography";
 import { cartpic } from "../cartpic.png";
 import { render } from "@testing-library/react";
 
-const mycart = ({
-  products,
-  cartproducts,
-  itemsInCart,
-  setCartProducts,
-  cartFull,
-  setCartFull
-}) => {
-  console.log(itemsInCart);
-  return (
-    //the objects.keys is coming up null? says it cannot
-    <html>
-      {Object.keys(itemsInCart).map(item => (
-        <p className="title"> {products[item].title} </p>
-      ))}
-    </html>
-  );
+const finditem = ({ products, itemsku }) => {
+  console.log(itemsku);
+  for (var i = 0; i < products.length; i++) {
+    if (itemsku == products[i].sku) return products[i];
+  }
 };
 
 const CartDisplay = ({
@@ -33,43 +21,38 @@ const CartDisplay = ({
   cartFull,
   setCartFull
 }) => {
-  if (cartFull) {
-    console.log("cartfull");
+  const mycart = () => {
+    console.log("p1", itemsInCart);
     return (
-      <div className="cart-display">
-        <ExpansionPanel>
-          <ExpansionPanelSummary>
-            <Typography className="expansion-panel">Cart</Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails className="cart-details">
-            <Typography>
-              {mycart(
-                products,
-                cartproducts,
-                itemsInCart,
-                setCartProducts,
-                cartFull,
-                setCartFull
-              )}
-            </Typography>
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
-      </div>
+      <html>
+        {Object.keys(itemsInCart).map(item => (
+          <p className="title"> {item} </p>
+        ))}
+      </html>
     );
-  }
+  };
+
   return (
-    console.log("cartnotfull"),
-    (
-      <div className="cart-display">
-        <ExpansionPanel>
-          <ExpansionPanelSummary>
-            <Typography className="expansion-panel">Cart</Typography>
-          </ExpansionPanelSummary>
-        </ExpansionPanel>
-      </div>
-    )
+    <div className="cart-display">
+      <ExpansionPanel>
+        <ExpansionPanelSummary>
+          <Typography className="expansion-panel">Cart</Typography>
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails className="cart-details">
+          <Typography>
+            {mycart({
+              products,
+              cartproducts,
+              itemsInCart,
+              setCartProducts,
+              cartFull,
+              setCartFull
+            })}
+          </Typography>
+        </ExpansionPanelDetails>
+      </ExpansionPanel>
+    </div>
   );
 };
 
 export default CartDisplay;
-export { mycart };
