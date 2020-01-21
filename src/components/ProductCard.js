@@ -33,6 +33,18 @@ const ProductCard = ({ product, itemsInCart, setCartProducts, products }) => {
     console.log(itemsInCart);
     cart({ itemsInCart, setCartProducts, products });
   };
+  const RemoveFromCart = () => {
+    var currCart = itemsInCart;
+    if (itemsInCart[String(product.sku)] == 1) {
+      currCart.splice(String(product.sku), 1);
+    } else {
+      currCart[String(product.sku)] -= 1;
+    }
+    setCartProducts(currCart);
+    console.log(itemsInCart);
+    cart({ itemsInCart, setCartProducts, products });
+  };
+
   return (
     <Container className="product-container">
       <img
