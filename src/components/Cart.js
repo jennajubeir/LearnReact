@@ -6,29 +6,33 @@ import Typography from "@material-ui/core/Typography";
 import { cartpic } from "../cartpic.png";
 import { render } from "@testing-library/react";
 
-const finditem = ({ products, itemsku }) => {
-  console.log(itemsku);
-  for (var i = 0; i < products.length; i++) {
-    if (itemsku == products[i].sku) return products[i];
-  }
-};
+const CartDisplay = ({ products, itemsInCart, setCartProducts }) => {
+  const finditem = itemsku => {
+    console.log("itemsku:", itemsku);
+    console.log("products:", products);
+    var temp = products;
+    console.log("temp", temp);
+    for (var i = 0; i < Object.keys(products).length; i++) {
+      if (itemsku == products[i].sku) return products[i];
+    }
+  };
 
-const CartDisplay = ({
-  products,
-  cartproducts,
-  itemsInCart,
-  setCartProducts,
-  cartFull,
-  setCartFull
-}) => {
   const mycart = () => {
-    console.log("p1", itemsInCart);
+    console.log("products:", products);
+    console.log("productsinmycart", itemsInCart);
+    var temp = itemsInCart;
     return (
-      <html>
-        {Object.keys(itemsInCart).map(item => (
-          <p className="title"> {item} </p>
+      <div>
+        {Object.keys(temp).map(item => (
+          <p>
+            {
+              products.find(element => {
+                return element["sku"] == String(item);
+              })["title"]
+            }
+          </p>
         ))}
-      </html>
+      </div>
     );
   };
 
@@ -40,14 +44,7 @@ const CartDisplay = ({
         </ExpansionPanelSummary>
         <ExpansionPanelDetails className="cart-details">
           <Typography>
-            {mycart({
-              products,
-              cartproducts,
-              itemsInCart,
-              setCartProducts,
-              cartFull,
-              setCartFull
-            })}
+            {mycart(products, itemsInCart, setCartProducts)}
           </Typography>
         </ExpansionPanelDetails>
       </ExpansionPanel>

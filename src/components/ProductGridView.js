@@ -17,6 +17,7 @@ const ProductGridView = ({
             <ProductCard
               key={product.sku}
               product={product}
+              products={products}
               itemsInCart={itemsInCart}
               setCartProducts={setCartProducts}
               cartFull={cartFull}

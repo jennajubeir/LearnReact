@@ -47,7 +47,6 @@ const App = () => {
       <div id="cart-display">
         <CartDisplay
           products={products}
-          cartproduct={products}
           itemsInCart={itemsInCart}
           setCartProducts={setCartProducts}
           cartFull={cartFull}

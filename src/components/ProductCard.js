@@ -11,16 +11,17 @@ import { render } from "@testing-library/react";
 import ReactDOM from "react-dom";
 import CartDisplay from "./Cart";
 
-const cart = () =>
-  ReactDOM.render(<CartDisplay />, document.getElementById("cart-display"));
+const cart = ({ itemsInCart, setCartProducts, products }) =>
+  ReactDOM.render(
+    <CartDisplay
+      products={products}
+      itemsInCart={itemsInCart}
+      setCartProducts={setCartProducts}
+    />,
+    document.getElementById("cart-display")
+  );
 
-const ProductCard = ({
-  product,
-  itemsInCart,
-  setCartProducts,
-  cartFull,
-  setCartFull
-}) => {
+const ProductCard = ({ product, itemsInCart, setCartProducts, products }) => {
   const AddtoCart = () => {
     var currCart = itemsInCart;
     if (String(product.sku) in currCart) {
@@ -29,7 +30,8 @@ const ProductCard = ({
       currCart[String(product.sku)] = 1;
     }
     setCartProducts(currCart);
-    cart();
+    console.log(itemsInCart);
+    cart({ itemsInCart, setCartProducts, products });
   };
   return (
     <Container className="product-container">
