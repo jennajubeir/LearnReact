@@ -53,6 +53,7 @@ const Banner = ({ user, title }) => (
 );
 
 firebase.initializeApp(firebaseConfig);
+const db = firebase.database().ref();
 
 const App = () => {
   const [data, setData] = useState({});
@@ -74,12 +75,9 @@ const App = () => {
     };
     fetchProducts();
 
-    const fetchInventory = async () => {
-      const inventoryResponse = await fetch("./data/inventory.json");
-      const inventoryJson = await inventoryResponse.json();
-      setInventory(inventoryJson);
-    };
-    fetchInventory();
+    db.once("value").then(snap => {
+      setInventory(snap.val());
+    });
   }, []);
 
   return (
