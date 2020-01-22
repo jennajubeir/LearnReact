@@ -7,20 +7,46 @@ import { cartpic } from "../cartpic.png";
 import { render } from "@testing-library/react";
 import ReactDOM from "react-dom";
 
-const cart2 = ({ itemsInCart, setCartProducts, products }) =>
+const cart2 = ({
+  itemsInCart,
+  setCartProducts,
+  products,
+  cartPrice,
+  setCartPrice,
+  inventory,
+  setInventory
+}) =>
   ReactDOM.render(
     <CartDisplay
       products={products}
       itemsInCart={itemsInCart}
       setCartProducts={setCartProducts}
+      cartPrice={cartPrice}
+      setCartPrice={setCartPrice}
+      inventory={inventory}
+      setInventory={setInventory}
     />,
     document.getElementById("cart-display")
   );
 
-const CartDisplay = ({ products, itemsInCart, setCartProducts }) => {
+const CartDisplay = ({
+  products,
+  itemsInCart,
+  setCartProducts,
+  cartPrice,
+  setCartPrice,
+  inventory,
+  setInventory
+}) => {
   const RemoveFromCart = itemsku => {
     var currCart = itemsInCart;
-
+    var newprice = cartPrice;
+    console.log("before removing", newprice);
+    // get price of the item
+    var holder = products.find(element => {
+      return element["sku"] == String(itemsku);
+    })["price"];
+    newprice = newprice - holder;
     if (itemsInCart[String(itemsku)] == 1) {
       console.log("trying to delete");
       delete currCart[String(itemsku)];
@@ -28,13 +54,16 @@ const CartDisplay = ({ products, itemsInCart, setCartProducts }) => {
       currCart[String(itemsku)] -= 1;
     }
     setCartProducts(currCart);
-    console.log(itemsInCart);
-    cart2({ itemsInCart, setCartProducts, products });
+    setCartPrice(newprice);
+    console.log("after removing", cartPrice);
+    console.log("after removing", newprice);
+    cart2({ itemsInCart, setCartProducts, products, cartPrice, setCartPrice });
   };
-
+  //const getprice = () {}
   const mycart = () => {
     console.log("products:", products);
     console.log("itemsInCart", itemsInCart);
+    console.log("cartPrice", cartPrice);
     var temp = itemsInCart;
     return (
       <div>
@@ -48,7 +77,10 @@ const CartDisplay = ({ products, itemsInCart, setCartProducts }) => {
                 })["title"]
               }
               &nbsp; Quantity: {temp[item]}
-              <button onClick={() => RemoveFromCart(item)}>
+              <button
+                className="remove-from-cart-button"
+                onClick={() => RemoveFromCart(item)}
+              >
                 Remove from Cart
               </button>
             </p>
@@ -66,8 +98,16 @@ const CartDisplay = ({ products, itemsInCart, setCartProducts }) => {
         </ExpansionPanelSummary>
         <ExpansionPanelDetails className="cart-details">
           <Typography>
-            {mycart(products, itemsInCart, setCartProducts)}
-            <p>Total Price: </p>
+            {mycart(
+              products,
+              itemsInCart,
+              setCartProducts,
+              cartPrice,
+              setCartPrice,
+              inventory,
+              setInventory
+            )}
+            <p>Total Price: $ {cartPrice} </p>
           </Typography>
         </ExpansionPanelDetails>
       </ExpansionPanel>

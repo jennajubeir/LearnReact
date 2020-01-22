@@ -7,6 +7,7 @@ import ProductGridView from "./components/ProductGridView";
 import ProductCard from "./components/ProductCard";
 import "./components/ProductCard.css";
 import CartDisplay from "./components/Cart";
+
 const firebaseConfig = {
   apiKey: "AIzaSyBS4qjaorkbIIy3Xxsv6_p9TYotcjs2Mlw",
   authDomain: "learnreact-1d4bc.firebaseapp.com",
@@ -23,7 +24,8 @@ const App = () => {
   const [data, setData] = useState({});
   const products = Object.values(data);
   const [itemsInCart, setCartProducts] = useState({});
-  const [cartFull, setCartFull] = useState("false");
+  const [cartPrice, setCartPrice] = useState(0);
+  const [inventory, setInventory] = useState({});
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -32,6 +34,13 @@ const App = () => {
       setData(json);
     };
     fetchProducts();
+
+    const fetchInventory = async () => {
+      const inventoryResponse = await fetch("./data/inventory.json");
+      const inventoryJson = await inventoryResponse.json();
+      setInventory(inventoryJson);
+    };
+    fetchInventory();
   }, []);
 
   return (
@@ -41,16 +50,20 @@ const App = () => {
         products={products}
         itemsInCart={itemsInCart}
         setCartProducts={setCartProducts}
-        cartFull={cartFull}
-        setCartFull={setCartFull}
+        cartPrice={cartPrice}
+        setCartPrice={setCartPrice}
+        inventory={inventory}
+        setInventory={setInventory}
       />
       <div id="cart-display">
         <CartDisplay
           products={products}
           itemsInCart={itemsInCart}
           setCartProducts={setCartProducts}
-          cartFull={cartFull}
-          setCartFull={setCartFull}
+          cartPrice={cartPrice}
+          setCartPrice={setCartPrice}
+          inventory={inventory}
+          setInventory={setInventory}
         />
       </div>
     </div>

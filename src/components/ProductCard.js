@@ -11,42 +11,80 @@ import { render } from "@testing-library/react";
 import ReactDOM from "react-dom";
 import CartDisplay from "./Cart";
 
-const cart = ({ itemsInCart, setCartProducts, products }) =>
+const sizes = ["S", "M", "L", "XL"];
+
+const cart = ({
+  itemsInCart,
+  setCartProducts,
+  products,
+  cartPrice,
+  setCartPrice,
+  inventory,
+  setInventory
+}) =>
   ReactDOM.render(
     <CartDisplay
       products={products}
       itemsInCart={itemsInCart}
       setCartProducts={setCartProducts}
+      cartPrice={cartPrice}
+      setCartPrice={setCartPrice}
+      inventory={inventory}
+      setInventory={setInventory}
     />,
     document.getElementById("cart-display")
   );
 
-const ProductCard = ({ product, itemsInCart, setCartProducts, products }) => {
-  const AddtoCart = () => {
+const ProductCard = ({
+  product,
+  itemsInCart,
+  setCartProducts,
+  products,
+  cartPrice,
+  setCartPrice,
+  inventory,
+  setInventory
+}) => {
+  const AddtoCart = size => {
     var currCart = itemsInCart;
+    var currInventory = inventory;
+    var newprice = cartPrice;
+    console.log("pre:", product.price);
+    newprice = newprice + product.price;
     if (String(product.sku) in currCart) {
       currCart[String(product.sku)] += 1;
     } else {
       currCart[String(product.sku)] = 1;
     }
+    currInventory[String(product.sku)][size] -= 1;
+    setCartPrice(newprice);
     setCartProducts(currCart);
+    setInventory(currInventory);
+    console.log("post:", cartPrice);
     console.log(itemsInCart);
-    cart({ itemsInCart, setCartProducts, products });
-  };
-  const RemoveFromCart = () => {
-    var currCart = itemsInCart;
-    if (itemsInCart[String(product.sku)] == 1) {
-      currCart.splice(String(product.sku), 1);
-    } else {
-      currCart[String(product.sku)] -= 1;
-    }
-    setCartProducts(currCart);
-    console.log(itemsInCart);
-    cart({ itemsInCart, setCartProducts, products });
-  };
+    cart({ itemsInCart, setCartProducts, products, cartPrice, setCartPrice });
 
+    if (inventory[String(product.sku)][size] < 1) {
+      [].slice
+        .call(
+          document
+            .getElementById(String(product.sku))
+            .getElementsByClassName("small-size-buttons")
+        )
+        .find(element => {
+          return element.value == size;
+        }).disabled = true;
+    }
+  };
+  const DisabledButton = ({ size }) => {
+    try {
+      return inventory[String(product.sku)][size] === 0;
+    } catch (e) {
+      return false;
+    }
+  };
   return (
-    <Container className="product-container">
+    <Container className="product-container" id={String(product.sku)}>
       <img
         className="img"
         src={"data/products/".concat(product.sku, "_1.jpg")}
@@ -57,26 +95,18 @@ const ProductCard = ({ product, itemsInCart, setCartProducts, products }) => {
       <p className="price">{product.currencyFormat.concat(product.price)} </p>
 
       <ButtonGroup className="size-buttons" variant="contained">
-        <Button className="small-size-buttons" variant="contained">
-          {" "}
-          S{" "}
-        </Button>
-        <Button className="small-size-buttons" variant="contained">
-          {" "}
-          M{" "}
-        </Button>
-        <Button className="small-size-buttons" variant="contained">
-          {" "}
-          L{" "}
-        </Button>
-        <Button className="small-size-buttons" variant="contained">
-          {" "}
-          XL{" "}
-        </Button>
+        {sizes.map(size => (
+          <Button
+            className="small-size-buttons"
+            key={String(product.sku).concat("_", size)}
+            onClick={e => AddtoCart(e.target.value)}
+            disabled={DisabledButton({ size })}
+            value={size}
+          >
+            {size}
+          </Button>
+        ))}
       </ButtonGroup>
-      <button className="add-to-cart" variant="contained" onClick={AddtoCart}>
-        Add to Cart
-      </button>
     </Container>
   );
 };

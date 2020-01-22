@@ -6,8 +6,10 @@ const ProductGridView = ({
   products,
   itemsInCart,
   setCartProducts,
-  cartFull,
-  setCartFull
+  cartPrice,
+  setCartPrice,
+  inventory,
+  setInventory
 }) => {
   return (
     <div className="product-grid">
@@ -20,8 +22,10 @@ const ProductGridView = ({
               products={products}
               itemsInCart={itemsInCart}
               setCartProducts={setCartProducts}
-              cartFull={cartFull}
-              setCartFull={setCartFull}
+              cartPrice={cartPrice}
+              setCartPrice={setCartPrice}
+              inventory={inventory}
+              setInventory={setInventory}
             />
           </Grid>
         ))}
