@@ -49,19 +49,18 @@ const ProductCard = ({
     var currCart = itemsInCart;
     var currInventory = inventory;
     var newprice = cartPrice;
-    console.log("pre:", product.price);
     newprice = newprice + product.price;
+
     if (String(product.sku) in currCart) {
       currCart[String(product.sku)] += 1;
     } else {
       currCart[String(product.sku)] = 1;
     }
+
     currInventory[String(product.sku)][size] -= 1;
     setCartPrice(newprice);
     setCartProducts(currCart);
     setInventory(currInventory);
-    console.log("post:", cartPrice);
-    console.log(itemsInCart);
     cart({ itemsInCart, setCartProducts, products, cartPrice, setCartPrice });
 
     if (inventory[String(product.sku)][size] < 1) {

@@ -1,4 +1,4 @@
-.cart-display {
+.cart-display-2 {
   position: fixed;
   right: 2%;
   top: 2%;
@@ -6,4 +6,5 @@
 }
 
 .expansion-panel {
+  font-size: 30pt;
 }

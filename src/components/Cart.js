@@ -15,7 +15,7 @@ const cart2 = ({
   setCartPrice,
   inventory,
   setInventory
-}) =>
+}) => {
   ReactDOM.render(
     <CartDisplay
       products={products}
@@ -28,6 +28,7 @@ const cart2 = ({
     />,
     document.getElementById("cart-display")
   );
+};
 
 const CartDisplay = ({
   products,
@@ -41,30 +42,25 @@ const CartDisplay = ({
   const RemoveFromCart = itemsku => {
     var currCart = itemsInCart;
     var newprice = cartPrice;
-    console.log("before removing", newprice);
     // get price of the item
     var holder = products.find(element => {
       return element["sku"] == String(itemsku);
     })["price"];
+
     newprice = newprice - holder;
     if (itemsInCart[String(itemsku)] == 1) {
-      console.log("trying to delete");
       delete currCart[String(itemsku)];
     } else {
       currCart[String(itemsku)] -= 1;
     }
     setCartProducts(currCart);
     setCartPrice(newprice);
-    console.log("after removing", cartPrice);
-    console.log("after removing", newprice);
     cart2({ itemsInCart, setCartProducts, products, cartPrice, setCartPrice });
   };
-  //const getprice = () {}
+
   const mycart = () => {
-    console.log("products:", products);
-    console.log("itemsInCart", itemsInCart);
-    console.log("cartPrice", cartPrice);
     var temp = itemsInCart;
+
     return (
       <div>
         {Object.keys(temp).map(item => (
@@ -86,12 +82,13 @@ const CartDisplay = ({
             </p>
           </div>
         ))}
+        <p>Total Price: ${cartPrice}</p>
       </div>
     );
   };
 
   return (
-    <div className="cart-display">
+    <div className="cart-display-2">
       <ExpansionPanel>
         <ExpansionPanelSummary>
           <Typography className="expansion-panel">Cart</Typography>
@@ -107,7 +104,6 @@ const CartDisplay = ({
               inventory,
               setInventory
             )}
-            <p>Total Price: $ {cartPrice} </p>
           </Typography>
         </ExpansionPanelDetails>
       </ExpansionPanel>
